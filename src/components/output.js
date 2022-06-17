@@ -4,18 +4,7 @@ import { convertCss } from '../scripts/parser/parser';
 import TailwindBlock from './tailwind-block';
 
 const Output = ({ settings, cssTree, editorErrors }) => {
-    const parseStyleTree = (styleTree, selector) => {
-        const tailWindStyles = [];
-        const errors = [];
-        const isHover = selector.indexOf(':hover') !== -1;
-        for (let i = 0; i < styleTree.length; i++) {
-            const property = styleTree[i];
-            const value = styleTree[property];
-            convertCss(property, value, tailWindStyles, errors, settings);
-        }
-        return [tailWindStyles, errors];
-    };
-    console.log(cssTree);
+
     return (
         <div className="flex-grow h-full w-full p-2 border-box overflow-y-auto">
             <div class="flex tracking-wide text-teal-900 text-lg items-center uppercase font-bold mb-2">
@@ -43,36 +32,12 @@ const Output = ({ settings, cssTree, editorErrors }) => {
                 </div>
             )}
             {cssTree &&
-                cssTree.length !== 0 &&
-                cssTree.map(([selector, styleTree]) => {
-                    const [tailWindStyles, errors] = parseStyleTree(
-                        styleTree,
-                        selector
-                    );
-
-                    return (
-                        <div className="mb-6 text-sm">
-                            <div className="text-gray-700">{selector}</div>
-                            {tailWindStyles.length !== 0 && (
-                                <TailwindBlock
-                                    tailWindStyles={tailWindStyles.join(' ')}
-                                />
-                            )}
-                            {errors.length !== 0 && (
-                                <div>
-                                    <div className="rounded text-yellow-900 bg-yellow-100 leading-4 p-2 py-1 inline-block text-xs transition">
-                                        <div className="font-bold">
-                                            Unable to Convert:
-                                        </div>
-                                        {errors.map((error) => (
-                                            <div>{error}</div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
+                cssTree.length !== 0 && (
+                <TailwindBlock
+                    tailWindStyles={cssTree.join(' ')}
+                />
+            )
+                }
         </div>
     );
 };

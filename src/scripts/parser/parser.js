@@ -20,7 +20,6 @@ export const convertCss = (
         errors,
         settings
     );
-    console.log(processedProperty, processedValue);
 
     if (
         TailWindMap[processedProperty] &&
